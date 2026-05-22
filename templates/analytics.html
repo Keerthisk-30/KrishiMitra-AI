@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4 text-success">
+
+    Analytics Dashboard
+
+</h2>
+
+<!-- SUMMARY CARDS -->
+
+<div class="row mb-4">
+
+    <!-- TOTAL POSTS -->
+
+    <div class="col-md-6 mb-3">
+
+        <div class="card shadow-sm border-0 bg-success text-white">
+
+            <div class="card-body text-center">
+
+                <h3>
+
+                    Total Posts
+
+                </h3>
+
+                <h1>
+
+                    {{ total_posts }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TOTAL FARMERS -->
+
+    <div class="col-md-6 mb-3">
+
+        <div class="card shadow-sm border-0 bg-primary text-white">
+
+            <div class="card-body text-center">
+
+                <h3>
+
+                    Total Farmers
+
+                </h3>
+
+                <h1>
+
+                    {{ total_users }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TOP CROP -->
+
+    <div class="col-md-6 mb-3">
+
+        <div class="card shadow-sm border-0 bg-warning text-dark">
+
+            <div class="card-body text-center">
+
+                <h3>
+
+                    Top Crop
+
+                </h3>
+
+                <h1>
+
+                    {{ top_crop }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TOP ISSUE -->
+
+    <div class="col-md-6 mb-3">
+
+        <div class="card shadow-sm border-0 bg-danger text-white">
+
+            <div class="card-body text-center">
+
+                <h3>
+
+                    Top Issue
+
+                </h3>
+
+                <h1>
+
+                    {{ top_issue }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- LINE CHART -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <h4 class="text-success mb-3">
+
+            Daily Farmer Posts Trend
+
+        </h4>
+
+        <canvas id="trendChart" height="90"></canvas>
+
+    </div>
+
+</div>
+
+<!-- PIE + BAR CHARTS -->
+
+<div class="row">
+
+    <!-- PIE CHART -->
+
+    <div class="col-md-6 mb-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h4 class="text-success mb-3">
+
+                    Most Reported Crops
+
+                </h4>
+
+                <canvas id="cropChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BAR CHART -->
+
+    <div class="col-md-6 mb-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h4 class="text-success mb-3">
+
+                    Most Common Issues
+
+                </h4>
+
+                <canvas id="issueChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CHART JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    // -------------------------------------
+    // CROP DATA
+    // -------------------------------------
+
+    const cropLabels =
+        {{ crop_labels | tojson | safe }};
+
+    const cropValues =
+        {{ crop_values | tojson | safe }};
+
+    // -------------------------------------
+    // ISSUE DATA
+    // -------------------------------------
+
+    const issueLabels =
+        {{ issue_labels | tojson | safe }};
+
+    const issueValues =
+        {{ issue_values | tojson | safe }};
+
+    // -------------------------------------
+    // TREND DATA
+    // -------------------------------------
+
+    const trendLabels =
+        {{ trend_labels | tojson | safe }};
+    
+    const trendValues =
+        {{ trend_values | tojson | safe }};
+
+    // -------------------------------------
+    // PIE CHART
+    // -------------------------------------
+
+    new Chart(
+        document.getElementById('cropChart'),
+        {
+
+            type: 'pie',
+
+            data: {
+
+                labels: cropLabels,
+
+                datasets: [{
+
+                    label: 'Crops',
+
+                    data: cropValues,
+
+                    borderWidth: 1
+
+                }]
+            }
+        }
+    );
+
+    // -------------------------------------
+    // BAR CHART
+    // -------------------------------------
+
+    new Chart(
+        document.getElementById('issueChart'),
+        {
+
+            type: 'bar',
+
+            data: {
+
+                labels: issueLabels,
+
+                datasets: [{
+
+                    label: 'Issues',
+
+                    data: issueValues,
+
+                    borderWidth: 1
+
+                }]
+            }
+        }
+    );
+
+    // -------------------------------------
+    // LINE CHART
+    // -------------------------------------
+
+    new Chart(
+        document.getElementById('trendChart'),
+        {
+
+            type: 'line',
+
+            data: {
+
+                labels: trendLabels,
+
+                datasets: [{
+
+                    label: 'Posts',
+
+                    data: trendValues,
+
+                    fill: false,
+
+                    tension: 0.3,
+
+                    borderWidth: 3
+
+                }]
+            }
+        }
+    );
+
+</script>
+
+{% endblock %}

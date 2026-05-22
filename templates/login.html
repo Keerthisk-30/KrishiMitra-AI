@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body">
+                <h2 class="mb-4 text-center text-primary">Farmer Login</h2>
+                <form method="POST">
+                    <input type="email"
+                           name="email"
+                           placeholder="Enter Email"
+                           class="form-control mb-3"
+                           required>
+                    <input type="password"
+                           name="password"
+                           placeholder="Enter Password"
+                           class="form-control mb-3"
+                           required>
+                    <button class="btn btn-primary w-100">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

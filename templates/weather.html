@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="text-success mb-4">
+    Weather Advisory
+</h2>
+
+<div class="card shadow-sm p-4">
+
+    <form method="POST"
+      action="/weather">
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Enter City
+            </label>
+
+            <input type="text"
+                   name="city"
+                   class="form-control"
+                   placeholder="Enter village, district or city"
+                   required>
+
+        </div>
+
+        <button type="submit"
+                class="btn btn-success">
+            Check Weather
+        </button>
+
+    </form>
+
+</div>
+
+{% if weather_data %}
+
+<div class="card shadow-sm mt-4 p-4">
+
+    <h3 class="text-primary">
+        {{ weather_data.city }}
+    </h3>
+
+    <hr>
+
+    <h5>
+        Temperature:
+        {{ weather_data.temperature }} °C
+    </h5>
+
+    <h5>
+        Humidity:
+        {{ weather_data.humidity }}%
+    </h5>
+
+    <h5>
+        Weather:
+        {{ weather_data.description }}
+    </h5>
+
+    <h5>
+        Wind Speed:
+        {{ weather_data.wind_speed }} m/s
+    </h5>
+
+</div>
+
+<div class="card shadow-sm mt-4 p-4">
+
+    <h4 class="text-success">
+        AI Farming Advice
+    </h4>
+
+    <p class="mt-3">
+        {{ advice }}
+    </p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

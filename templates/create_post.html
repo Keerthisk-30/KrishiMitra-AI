@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="mb-4 text-success">
+                    Create Farming Experience Post
+                </h2>
+                <form method="POST"
+                      enctype="multipart/form-data">
+
+                    <!-- Crop Name -->
+
+                    <input type="text"
+                           name="crop_name"
+                           placeholder="Crop Name"
+                           class="form-control mb-3"
+                           required>
+
+                    <!-- Issue Title -->
+                    <input type="text"
+                           name="issue_title"
+                           placeholder="Issue Title"
+                           class="form-control mb-3"
+                           required>
+
+                    <!-- Language Selection -->
+                    <select id="language" class="form-select mb-3">
+                        <option value="en-IN">
+                            English
+                        </option>
+                        <option value="kn-IN">
+                            Kannada
+                        </option>
+                        <option value="te-IN">
+                            Telugu
+                        </option>
+                        <option value="ta-IN">
+                            Tamil
+                        </option>
+                        <option value="hi-IN">
+                            Hindi
+                        </option>
+                    </select>
+                    <!-- Voice Button -->
+
+                    <button type="button" class="btn btn-warning mb-3" onclick="startRecognition()">🎤 Speak Description</button>
+
+                    <!-- Description -->
+
+                    <textarea name="description"
+                              id="description"
+                              placeholder="Describe the farming issue..."
+                              class="form-control mb-3"
+                              rows="6"
+                              required></textarea>
+
+                    <!-- Image Upload -->
+                    <input type="file"
+                           name="image"
+                           class="form-control mb-3"
+                           required>
+
+                    <!-- Submit -->
+                    <button class="btn btn-success w-100">
+                        Submit Post
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function startRecognition() {
+    const recognition =
+        new(window.SpeechRecognition ||
+            window.webkitSpeechRecognition)();
+
+    // Selected language
+
+    const selectedLanguage =
+        document.getElementById(
+            'language'
+        ).value;
+    recognition.lang = selectedLanguage;
+    recognition.start();
+    recognition.onresult = function(event) {
+        const transcript =
+            event.results[0][0].transcript;
+        document.getElementById(
+            'description'
+        ).value = transcript;
+    };
+}
+</script>
+{% endblock %}
